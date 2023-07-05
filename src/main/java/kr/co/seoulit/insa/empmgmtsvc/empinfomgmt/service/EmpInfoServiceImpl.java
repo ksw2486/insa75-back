@@ -86,12 +86,15 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	}
 
 	@Override
-	public ArrayList<EmpTO> findEmpList(String deptName) {
+	public ArrayList<EmpTO> findEmpList(String parameter) {
+
+		System.out.println("parameter = " + parameter);
+		String deptName = parameter.split(":")[0];
 
 		ArrayList<EmpTO> empList = null;
-		if (deptName.equals("전체부서")) {
+		if (parameter.equals("전체부서")) {
 			empList = empMapper.selectEmpList();
-		} else if (deptName.substring(deptName.length() - 1, deptName.length()).equals("팀")) {
+		} else if (parameter.substring(deptName.length() - 1, deptName.length()).equals("팀")) {
 			empList = empMapper.selectEmpListD(deptName);
 
 		} else {
