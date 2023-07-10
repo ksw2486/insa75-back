@@ -51,9 +51,9 @@ public class CodeListController {
 
 		System.out.println("code = " + code);
 
-		ArrayList<DetailCode> detailCodeList = systemMgmtService.findDetailCodeList(code);
+		ArrayList<DetailCodeDTO> detailCodeList = systemMgmtService.findDetailCodeList(code);
 
-		datasetBeanMapper.beansToDataset(resData, detailCodeList, DetailCode.class);
+		datasetBeanMapper.beansToDataset(resData, detailCodeList, DetailCodeDTO.class);
 
 		System.out.println("detailCodeList ================ " + detailCodeList);
 		long end1 = System.currentTimeMillis();

@@ -82,7 +82,7 @@ public class SystemMgmtServiceImpl implements SystemMgmtService {
 
 	@Override
 	@Cacheable(value = "codelist")
-	public ArrayList<DetailCode> findDetailCodeList(String codetype) {
+	public ArrayList<DetailCodeDTO> findDetailCodeList(String codetype) {
 
 		ArrayList<DetailCode> detailCodes = null;
 
@@ -108,7 +108,7 @@ public class SystemMgmtServiceImpl implements SystemMgmtService {
 		}
 		//detailCodeto = detailCodeMapper.selectDetailCodeList(codetype);
 		System.out.println("collect = " + dto);
-		return detailCodes;
+		return (ArrayList<DetailCodeDTO>)dto;
 
 	}
 

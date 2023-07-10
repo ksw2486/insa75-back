@@ -26,7 +26,7 @@ public interface SystemMgmtService {
 	//Code Part 
 //	public ArrayList<DetailCodeTO> findDetailCodeList(String codetype);
 
-	public ArrayList<DetailCode> findDetailCodeList(String code);
+	public ArrayList<DetailCodeDTO> findDetailCodeList(String code);
 	public ArrayList<DetailCodeTO> findDetailCodeListRest(String code1,String code2,String code3);
 	public ArrayList<CodeTO> findCodeList();
 
