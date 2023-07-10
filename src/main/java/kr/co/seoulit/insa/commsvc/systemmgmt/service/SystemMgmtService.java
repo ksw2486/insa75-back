@@ -1,10 +1,13 @@
 package kr.co.seoulit.insa.commsvc.systemmgmt.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.seoulit.insa.commsvc.systemmgmt.dto.DetailCodeDTO;
+import kr.co.seoulit.insa.commsvc.systemmgmt.entity.DetailCode;
 import kr.co.seoulit.insa.commsvc.systemmgmt.exception.IdNotFoundException;
 import kr.co.seoulit.insa.commsvc.systemmgmt.exception.PwMissMatchException;
 import kr.co.seoulit.insa.commsvc.systemmgmt.to.AdminCodeTO;
@@ -23,7 +26,7 @@ public interface SystemMgmtService {
 	//Code Part 
 //	public ArrayList<DetailCodeTO> findDetailCodeList(String codetype);
 
-	public ArrayList<DetailCodeTO> findDetailCodeList(String code);
+	public ArrayList<DetailCode> findDetailCodeList(String code);
 	public ArrayList<DetailCodeTO> findDetailCodeListRest(String code1,String code2,String code3);
 	public ArrayList<CodeTO> findCodeList();
 

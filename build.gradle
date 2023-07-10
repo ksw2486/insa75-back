@@ -72,7 +72,15 @@ compileOnly 'org.projectlombok:lombok'
     implementation files('src/main/resources/libs/nexacro17-xapi-1.1.0.jar')
     implementation files('src/main/resources/libs/javax.servlet-api-4.0.1.jar')
     implementation files('src/main/resources/libs/jsp-api.jar')
-    implementation files('src/main/resources/libs/iTextAsian.jar')   
+    implementation files('src/main/resources/libs/iTextAsian.jar')
+
+
+//    redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+//    mapstruct
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
 }
 

@@ -3,6 +3,7 @@ package kr.co.seoulit.insa.commsvc.foudinfomgmt.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.insa.commsvc.systemmgmt.entity.DetailCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,6 @@ import kr.co.seoulit.insa.commsvc.foudinfomgmt.to.HolidayTO;
 import kr.co.seoulit.insa.commsvc.foudinfomgmt.to.PositionTO;
 import kr.co.seoulit.insa.commsvc.systemmgmt.mapper.DetailCodeMapper;
 import kr.co.seoulit.insa.commsvc.systemmgmt.repository.DetailCodeRepository;
-import kr.co.seoulit.insa.commsvc.systemmgmt.to.DetailCodeTO;
 
 
 @Service
@@ -63,7 +63,7 @@ public class FoudInfoMgmtServiceImpl implements FoudInfoMgmtService {
 	@Override
 	public void batchDeptProcess(ArrayList<DeptTO> deptto) {
 
-		DetailCodeTO detailCodeTO = new DetailCodeTO();
+		DetailCode detailCode = new DetailCode();
 
 		for (DeptTO deptBean : deptto) {
 
@@ -72,30 +72,30 @@ public class FoudInfoMgmtServiceImpl implements FoudInfoMgmtService {
 			case "update":
 				deptrepository.save(deptBean);
 				//deptMapper.updateDept(deptBean);
-				detailCodeTO.setDetailCodeNumber(deptBean.getDeptCode());
-				detailCodeTO.setDetailCodeName(deptBean.getDeptName());
-				detailCodeTO.setCodeNumber("CO-07"); // co-07이 부서관련 코드
-				detailCodeTO.setDetailCodeNameusing("Y"); // 새로 만들어져서 이렇게하다 .
-				detailcoderepository.save(detailCodeTO);
-				//detailCodeMapper.updateDetailCode(detailCodeTO);
+				detailCode.setDetailCodeNumber(deptBean.getDeptCode());
+				detailCode.setDetailCodeName(deptBean.getDeptName());
+				detailCode.setCodeNumber("CO-07"); // co-07이 부서관련 코드
+				detailCode.setDetailCodeNameusing("Y"); // 새로 만들어져서 이렇게하다 .
+				detailcoderepository.save(detailCode);
+				//detailCodeMapper.updateDetailCode(detailCode);
 				break;
 
 			case "insert":
 				deptrepository.save(deptBean);
 				//deptMapper.registDept(deptBean);
-				detailCodeTO.setDetailCodeNumber(deptBean.getDeptCode()); // 디테일코드에는 모든 코드들이 있기때문에 입력해준다.
-				detailCodeTO.setDetailCodeName(deptBean.getDeptName());
-				detailCodeTO.setCodeNumber("CO-07");
-				detailCodeTO.setDetailCodeNameusing("Y");
-				detailcoderepository.save(detailCodeTO);
-				//detailCodeMapper.registDetailCode(detailCodeTO);
+				detailCode.setDetailCodeNumber(deptBean.getDeptCode()); // 디테일코드에는 모든 코드들이 있기때문에 입력해준다.
+				detailCode.setDetailCodeName(deptBean.getDeptName());
+				detailCode.setCodeNumber("CO-07");
+				detailCode.setDetailCodeNameusing("Y");
+				detailcoderepository.save(detailCode);
+				//detailCodeMapper.registDetailCode(detailCode);
 				break;
 
 			case "delete":
 				deptMapper.deleteDept(deptBean);
-				detailCodeTO.setDetailCodeNumber(deptBean.getDeptCode());
-				detailCodeTO.setDetailCodeName(deptBean.getDeptName());
-				detailCodeMapper.deleteDetailCode(detailCodeTO);
+				detailCode.setDetailCodeNumber(deptBean.getDeptCode());
+				detailCode.setDetailCodeName(deptBean.getDeptName());
+				detailcoderepository.deleteById(detailCode.getDetailCodeNumber());
 				break;
 
 			case "normal":
@@ -121,36 +121,36 @@ public class FoudInfoMgmtServiceImpl implements FoudInfoMgmtService {
 		if (positionList != null && positionList.size() > 0) { // 아무것도 없어거나 빈배열일경우를 대비
 
 			for (PositionTO positionTO : positionList) {
-				DetailCodeTO detailCodeTO = new DetailCodeTO();
+				DetailCode detailCode = new DetailCode();
 				switch (positionTO.getStatus()) {
 
 				case "update":
 					positionrepository.save(positionTO);
 					//positionMapper.updatePosition(positionTO);
-					detailCodeTO.setDetailCodeNumber(positionTO.getPositionCode());
-					detailCodeTO.setDetailCodeName(positionTO.getPosition());
-					detailCodeTO.setCodeNumber("CO-04"); // 직급과련 코드.
-					detailCodeTO.setDetailCodeNameusing("Y");
-					detailcoderepository.save(detailCodeTO);
-					//detailCodeMapper.updateDetailCode(detailCodeTO);
+					detailCode.setDetailCodeNumber(positionTO.getPositionCode());
+					detailCode.setDetailCodeName(positionTO.getPosition());
+					detailCode.setCodeNumber("CO-04"); // 직급과련 코드.
+					detailCode.setDetailCodeNameusing("Y");
+					detailcoderepository.save(detailCode);
+					//detailCodeMapper.updateDetailCode(detailCode);
 					break;
 
 				case "insert":
 					positionrepository.save(positionTO);
 					//positionMapper.insertPosition(positionTO);
-					detailCodeTO.setDetailCodeNumber(positionTO.getPositionCode());
-					detailCodeTO.setDetailCodeName(positionTO.getPosition());
-					detailCodeTO.setCodeNumber("CO-04");
-					detailCodeTO.setDetailCodeNameusing("Y");
-					detailcoderepository.save(detailCodeTO);
-					//detailCodeMapper.registDetailCode(detailCodeTO);
+					detailCode.setDetailCodeNumber(positionTO.getPositionCode());
+					detailCode.setDetailCodeName(positionTO.getPosition());
+					detailCode.setCodeNumber("CO-04");
+					detailCode.setDetailCodeNameusing("Y");
+					detailcoderepository.save(detailCode);
+					//detailCodeMapper.registDetailCode(detailCode);
 					break;
 
 				case "delete":
 					positionMapper.deletePosition(positionTO);
-					detailCodeTO.setDetailCodeNumber(positionTO.getPositionCode());
-					detailCodeTO.setDetailCodeName(positionTO.getPosition());
-					detailCodeMapper.deleteDetailCode(detailCodeTO);
+					detailCode.setDetailCodeNumber(positionTO.getPositionCode());
+					detailCode.setDetailCodeName(positionTO.getPosition());
+					detailcoderepository.deleteById(detailCode.getDetailCodeNumber());
 					break;
 				}
 			}

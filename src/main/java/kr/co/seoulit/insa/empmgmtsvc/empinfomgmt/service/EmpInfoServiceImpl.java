@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import kr.co.seoulit.insa.commsvc.systemmgmt.entity.DetailCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -131,12 +132,12 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 		
 		empMapper.registEmployee(map);
 		
-		DetailCodeTO detailCodeto = new DetailCodeTO();
-		detailCodeto.setDetailCodeNumber(emp.getEmpCode());
-		detailCodeto.setDetailCodeName(emp.getEmpName());
-		detailCodeto.setCodeNumber("CO-17");
-		detailCodeto.setDetailCodeNameusing("N");
-		detailcoderepository.save(detailCodeto);
+		DetailCode detailCode = new DetailCode();
+		detailCode.setDetailCodeNumber(emp.getEmpCode());
+		detailCode.setDetailCodeName(emp.getEmpName());
+		detailCode.setCodeNumber("CO-17");
+		detailCode.setDetailCodeNameusing("N");
+		detailcoderepository.save(detailCode);
 		//detailCodeMapper.registDetailCode(detailCodeto);
 
 	}
