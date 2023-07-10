@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import kr.co.seoulit.insa.attdsvc.attdmgmt.service.AttdMgmtService;
 import kr.co.seoulit.insa.attdsvc.attdmgmt.to.DeptListTO;
 import kr.co.seoulit.insa.attdsvc.attdmgmt.to.EmpListTO;
+import kr.co.seoulit.insa.commsvc.systemmgmt.dto.DetailCodeDTO;
+import kr.co.seoulit.insa.commsvc.systemmgmt.entity.DetailCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +40,7 @@ public class CodeListController {
 	public ArrayList<DetailCodeTO> detailCodelist(@RequestAttribute("reqData") PlatformData reqData,
             @RequestAttribute("resData") PlatformData resData) throws Exception{
 		System.out.println("=============사원등록(부서검색) 모달창 오픈 컨트롤러 실행==============");
+		long start1 = System.currentTimeMillis();
 		System.out.println("reqData ====== " + reqData + "resData=======" + resData);
 		System.out.println(reqData.getVariable("code"));
 		System.out.println(reqData.getVariable("code").getString());
@@ -45,11 +49,15 @@ public class CodeListController {
 		if(reqData.getVariable("code") != null)
 			code = reqData.getVariable("code").getString();
 
-		ArrayList<DetailCodeTO> detailCodeList = systemMgmtService.findDetailCodeList(code);
+		System.out.println("code = " + code);
 
-		datasetBeanMapper.beansToDataset(resData, detailCodeList, DetailCodeTO.class);
+		ArrayList<DetailCode> detailCodeList = systemMgmtService.findDetailCodeList(code);
+
+		datasetBeanMapper.beansToDataset(resData, detailCodeList, DetailCode.class);
 
 		System.out.println("detailCodeList ================ " + detailCodeList);
+		long end1 = System.currentTimeMillis();
+		System.out.println("걸린 시간" + (end1 - start1));
 		System.out.println("=============사원등록(부서검색)  모달창 오픈 컨트롤러 종료==============");
 
 		return null;

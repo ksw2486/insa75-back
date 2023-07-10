@@ -3,10 +3,14 @@ package kr.co.seoulit.insa.commsvc.systemmgmt.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import kr.co.seoulit.insa.commsvc.systemmgmt.dto.DetailCodeDTO;
+import kr.co.seoulit.insa.commsvc.systemmgmt.entity.DetailCode;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import kr.co.seoulit.insa.commsvc.systemmgmt.exception.IdNotFoundException;
@@ -77,19 +81,34 @@ public class SystemMgmtServiceImpl implements SystemMgmtService {
 	}
 
 	@Override
-	public ArrayList<DetailCodeTO> findDetailCodeList(String codetype) {
+	@Cacheable(value = "codelist")
+	public ArrayList<DetailCode> findDetailCodeList(String codetype) {
 
-		ArrayList<DetailCodeTO> detailCodeto = null;
+		ArrayList<DetailCode> detailCodes = null;
+
+		List<DetailCodeDTO> dto = null;
 		if (codetype == null){
 			System.out.println(" 1번실행... ");
-			detailCodeto = (ArrayList<DetailCodeTO>) detailcoderepository.findAll();
+			detailCodes = (ArrayList<DetailCode>) detailcoderepository.findAll();
+
+			dto = detailCodes.stream().map(kr.co.seoulit.insa.commsvc.systemmgmt.mapstructMapper.DetailCodeMapper.INSTANCE::entityToDetailCodeDTO).collect(Collectors.toList());
+
+
 		}else{
 			System.out.println(" 2번실행... ");
 			System.out.println("========="+ codetype);
-			detailCodeto = (ArrayList<DetailCodeTO>)detailcoderepository.findAllBycodeNumber(codetype);
+			detailCodes = detailcoderepository.findAllBycodeNumber(codetype);
+
+			System.out.println("detailCodes = " + detailCodes);
+
+			dto = detailCodes.stream().map(kr.co.seoulit.insa.commsvc.systemmgmt.mapstructMapper.DetailCodeMapper.INSTANCE::entityToDetailCodeDTO).collect(Collectors.toList());
+
+
+
 		}
 		//detailCodeto = detailCodeMapper.selectDetailCodeList(codetype);
-		return detailCodeto;
+		System.out.println("collect = " + dto);
+		return detailCodes;
 
 	}
 
