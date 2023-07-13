@@ -3,6 +3,8 @@ package kr.co.seoulit.insa.salarysvc.salarystdinfomgmt.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.seoulit.insa.commsvc.foudinfomgmt.to.PositionTO;
+import kr.co.seoulit.insa.commsvc.systemmgmt.entity.DetailCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,10 +46,25 @@ public class SalaryStdInfoMgmtServiceImpl implements SalaryStdInfoMgmtService{
 	@Override
 	public void modifyBaseSalaryList(ArrayList<BaseSalaryTO> baseSalaryList) {
 
-		for (BaseSalaryTO baseSalary : baseSalaryList) {
-			if (baseSalary.getStatus().equals("update"))
-				baseSalrepository.save(baseSalary);
-				//baseSalaryMapper.updateBaseSalary(baseSalary);
+
+		if (baseSalaryList != null && baseSalaryList.size() > 0) { // 아무것도 없어거나 빈배열일경우를 대비
+
+			for (BaseSalaryTO baseSalary : baseSalaryList) {
+				switch (baseSalary.getStatus()) {
+
+					case "update":
+						baseSalrepository.save(baseSalary);
+						break;
+
+					case "insert":
+						baseSalrepository.save(baseSalary);
+						break;
+
+					case "delete":
+						baseSalrepository.deleteById(baseSalary.getPositionCode());
+						break;
+				}
+			}
 		}
 		
 	}
@@ -65,10 +82,29 @@ public class SalaryStdInfoMgmtServiceImpl implements SalaryStdInfoMgmtService{
 	@Override
 	public void modifyBaseExtSalList(ArrayList<BaseExtSalTO> baseExtSalList) {
 
-		for (BaseExtSalTO baseExtSal : baseExtSalList) {
-			baseExtSalrepository.save(baseExtSal);
-				//baseExtSalMapper.updateBaseExtSal(baseExtSal);
-		}		
+
+
+
+		if (baseExtSalList != null && baseExtSalList.size() > 0) { // 아무것도 없어거나 빈배열일경우를 대비
+
+			for (BaseExtSalTO baseExtSal : baseExtSalList) {
+				DetailCode detailCode = new DetailCode();
+				switch (baseExtSal.getStatus()) {
+
+					case "update":
+						baseExtSalrepository.save(baseExtSal);
+						break;
+
+					case "insert":
+						baseExtSalrepository.save(baseExtSal);
+						break;
+
+					case "delete":
+						baseExtSalrepository.deleteById(baseExtSal.getExtSalCode());
+						break;
+				}
+			}
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
