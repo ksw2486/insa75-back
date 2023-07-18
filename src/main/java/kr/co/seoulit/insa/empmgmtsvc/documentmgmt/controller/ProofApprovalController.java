@@ -18,20 +18,20 @@ import kr.co.seoulit.insa.sys.mapper.DatasetBeanMapper;
 @RequestMapping("/documentmgmt/*")
 @RestController
 public class ProofApprovalController {
-	
+
 	@Autowired
-	private DocumentMgmtService documentMgmtService;	
+	private DocumentMgmtService documentMgmtService;
 	@Autowired
 	private DatasetBeanMapper datasetBeanMapper;
-	
+
 	@RequestMapping("/documentmgmt/proof-approval")
 	public ModelMap modifyProofList(@RequestAttribute("reqData") PlatformData reqData,
 			@RequestAttribute("resData") PlatformData resData) throws Exception{
-		
+
 		ArrayList<proofTO> proofList = (ArrayList<proofTO>)datasetBeanMapper.datasetToBeans(reqData, proofTO.class);
-		
+
 		documentMgmtService.modifyProofList(proofList);
-		
+
 		return null;
 	}
 }

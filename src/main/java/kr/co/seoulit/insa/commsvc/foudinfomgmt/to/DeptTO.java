@@ -12,10 +12,10 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @Table(name="DEPT")
-@Dataset(name="ds_dept")
+@Dataset(name="ds_deptList")
 @EqualsAndHashCode(callSuper=false)
 public class DeptTO extends BaseTO {
-	
+
 	@Id
 	String deptCode;
 	String deptName;

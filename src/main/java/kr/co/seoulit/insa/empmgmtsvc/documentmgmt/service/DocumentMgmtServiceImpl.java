@@ -10,22 +10,27 @@ import kr.co.seoulit.insa.empmgmtsvc.documentmgmt.mapper.CertificateMapper;
 import kr.co.seoulit.insa.empmgmtsvc.documentmgmt.mapper.ProofCertificateMapper;
 import kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.CertificateTO;
 import kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.proofTO;
+import kr.co.seoulit.insa.empmgmtsvc.documentmgmt.to.DocumentsTO;
+import kr.co.seoulit.insa.empmgmtsvc.documentmgmt.mapper.DocumentsMapper;
+
 
 @Service
 public class DocumentMgmtServiceImpl implements DocumentMgmtService {
-	
+
 	@Autowired
 	private CertificateMapper certificateMapper;
 	@Autowired
 	private ProofCertificateMapper proofCertificateMapper;
+	@Autowired
+	private  DocumentsMapper documentsMapper;
 
 
-	
+
 	@Override
 	public void registRequest(CertificateTO certificate) {
 
 		certificateMapper.insertCertificateRequest(certificate);
-		
+
 	}
 
 	@Override
@@ -34,11 +39,11 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 		map.put("empCode", empCode);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
-		
+
 		ArrayList<CertificateTO> certificateList=null;
 		certificateList = certificateMapper.selectCertificateList(map);
 		return certificateList;
-		
+
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 			for (CertificateTO certificate : certificateList) {
 				certificateMapper.deleteCertificate(certificate);
 			}
-			
+
 	}
 
 	@Override
@@ -56,7 +61,7 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 		map.put("deptName", deptName);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
-		
+
 		ArrayList<CertificateTO> certificateList = null;
 			if (deptName.equals("모든부서")) {
 				certificateList = certificateMapper.selectCertificateListByAllDept(startDate);
@@ -64,7 +69,7 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 				certificateList = certificateMapper.selectCertificateListByDept(map);
 			}
 		return certificateList;
-		
+
 	}
 
 	@Override
@@ -73,11 +78,11 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 			for (CertificateTO certificate : certificateList) {
 
 
-				if (certificate.getStatus().equals("update")) {
+				//if (certificate.getStatus().equals("update")) {
 					certificateMapper.updateCertificate(certificate);
-				}
+				//}
 			}
-			
+
 	}
 
 	public void proofRequest(proofTO proof) {
@@ -95,10 +100,10 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 		System.out.println(startDate.substring(0,4)+"/"+startDate.substring(4,6)+"/"+startDate.substring(6,8));
 		map.put("endDate", endDate.substring(0,4)+"/"+endDate.substring(4,6)+"/"+endDate.substring(6,8));
 		ArrayList<proofTO> proofLookupList=null;
-		
+
 		proofLookupList = proofCertificateMapper.selectProofCertificateList(map);
 		return proofLookupList;
-		
+
 	}
 
 	@Override
@@ -107,7 +112,7 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 			for (proofTO proof : proofList) {
 				proofCertificateMapper.deleteProof(proof);
 			}
-			
+
 	}
 
 	@Override
@@ -117,7 +122,7 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
 		ArrayList<proofTO> proofList = null;
-		
+
 		if (deptName.equals("모든부서")) {
 			proofList = proofCertificateMapper.selectProofListByAllDept(startDate);
 		} else {
@@ -128,7 +133,7 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 
 	@Override
 	public void modifyProofList(ArrayList<proofTO> proofList) {
-		
+
 		for (proofTO proof : proofList) {
 				proofCertificateMapper.updateProof(proof);
 				System.out.println(proof.getApplovalStatus());
@@ -142,9 +147,65 @@ public class DocumentMgmtServiceImpl implements DocumentMgmtService {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("cashCode", cashCode);
 		map.put("proofImg", proofImg);
-		
+
 		proofCertificateMapper.updateProofImg(map);
 
 	}
-	
+
+	public void documentsRequest(DocumentsTO proof) {
+
+		documentsMapper.insertDocumentsRequest(proof);
+
+	}
+
+	@Override
+	public ArrayList<DocumentsTO> documentsLookupList(String empCode, String Code, String startDate, String endDate) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("empCode", empCode);
+		map.put("proofTypeCode", Code);
+		map.put("startDate", startDate.substring(0,4)+"/"+startDate.substring(4,6)+"/"+startDate.substring(6,8));
+		System.out.println(startDate.substring(0,4)+"/"+startDate.substring(4,6)+"/"+startDate.substring(6,8));
+		map.put("endDate", endDate.substring(0,4)+"/"+endDate.substring(4,6)+"/"+endDate.substring(6,8));
+		ArrayList<DocumentsTO> documentsLookupList=null;
+
+		documentsLookupList = documentsMapper.selectDocumentsList(map);
+		return documentsLookupList;
+
+	}
+
+	@Override
+	public void removeDocumentList(ArrayList<DocumentsTO> proofList) {
+
+		for (DocumentsTO proof : proofList) {
+			documentsMapper.deleteDocument(proof);
+		}
+
+	}
+
+
+	@Override
+	public ArrayList<DocumentsTO> documentsListInquiry(String empCode, String startDate, String endDate) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("empCode", empCode);
+		map.put("startDate", startDate.substring(0,4)+"/"+startDate.substring(4,6)+"/"+startDate.substring(6,8));
+		System.out.println(startDate.substring(0,4)+"/"+startDate.substring(4,6)+"/"+startDate.substring(6,8));
+		map.put("endDate", endDate.substring(0,4)+"/"+endDate.substring(4,6)+"/"+endDate.substring(6,8));
+		ArrayList<DocumentsTO> documentsLookupList=null;
+
+		documentsLookupList = documentsMapper.selectDocumentsList1(map);
+		return documentsLookupList;
+
+	}
+
+	@Override
+	public void modifyDocumentList(ArrayList<DocumentsTO> proofList) {
+
+		for (DocumentsTO proof : proofList) {
+			documentsMapper.updateDocument(proof);
+			System.out.println(proof.getApplovalStatus());
+			System.out.println(proof.getEmpCode());
+			System.out.println(proof.getApplovalStatus());
+		}
+	}
+
 }
