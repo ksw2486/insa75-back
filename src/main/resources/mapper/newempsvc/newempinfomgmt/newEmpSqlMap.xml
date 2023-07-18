@@ -96,74 +96,28 @@
     <insert id="InsertResume" parameterType="kr.co.seoulit.insa.newempsvc.newempinfomgmt.to.NewResumeTO">
    <![CDATA[
         INSERT INTO NEW_EMP_RESUME
-        (WORKPLACE_CODE,
-         YEAR,
-         HALF,
-         P_CODE,
-         P_NAME,
-         P_AGE,
-         P_GENDER,
-         P_ADDRESS,
-         P_TEL,
-         P_EMAIL,
-         P_DEPT,
-         P_LAST_SCHOOL,
-         P_CAREER)
-        SELECT #{workplace},
-               #{year},
-               #{half},
-               #{p_code},
-               #{p_name},
-               #{p_age},
-               #{p_gender},
-               #{p_address},
-               #{p_tel},
-               #{p_email},
-               #{p_dept},
-               #{p_last_school},
-               #{p_career}
-        FROM (SELECT
-                  YEAR, HALF
-              FROM
-                  TERMS_EMP
-              WHERE
-                  ( YEAR = #{year}
-                AND HALF = #{half}
-                AND WORKPLACE_CODE = #{workplace})
-                AND
-                  ( MIN_AGE <= #{p_age}
-                AND MAX_AGE >= #{p_age} )
-                AND
-                  ( DEPT = #{p_dept}
-                 OR DEPT = '무관' )
-                AND
-                  (
-                  DECODE( #{p_last_school}
-                  , '초졸'
-                  , 1
-                  , '중졸'
-                  , 2
-                  , '고졸'
-                  , 3
-                  , '2년제대학'
-                  , 4
-                  , '4년제대학'
-                  , 5
-                  , 0 )
-                  >=
-                  DECODE( LAST_SCHOOL
-                  , '초졸'
-                  , 1
-                  , '중졸'
-                  , 2
-                  , '고졸'
-                  , 3
-                  , '2년제대학'
-                  , 4
-                  , '4년제대학'
-                  , 5
-                  , 0 )
-                  ))
+            VALUES (WORKPLACE_CODE,
+                    YEAR,
+                    HALF,
+                    #{p_code},
+                    #{p_name},
+                    #{p_age},
+                    #{p_gender},
+                    #{p_address},
+                    #{p_tel},
+                    #{p_email},
+                    #{p_dept},
+                    #{p_last_school},
+                    #{p_career})
+        SELECT WORKPLACE_CODE,
+                YEAR,
+                CASE WHEN SUBSTR(#{p_code},5,2) <7  THEN '상반기'
+                    ELSE '하반기'
+                    END AS HALF
+
+        FROM TERMS_EMP
+        WHERE YEAR = SUBSTR(#{p_code},1,4)
+
         ]]>
    </insert>
 
