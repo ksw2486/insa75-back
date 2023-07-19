@@ -97,16 +97,17 @@
         <parameter property="email" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
         <parameter property="lastSchool" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
         <parameter property="imgExtend" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
-        <parameter property="deptName" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
-        <parameter property="position" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="deptCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="positionCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
         <parameter property="hobong" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
         <parameter property="occupation" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
         <parameter property="employment" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+        <parameter property="WorkPlaceCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
     </parameterMap>
 
     <select id="registEmployee" parameterMap="empInsertParameter" statementType="CALLABLE">
       <![CDATA[
-        {call P_INSERT_EMP(?, ?, TO_DATE(?, 'RRRR/MM/DD'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        {call P_INSERT_EMP(?, ?, TO_DATE(?, 'RRRR/MM/DD'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)}
         ]]>
    </select>
 

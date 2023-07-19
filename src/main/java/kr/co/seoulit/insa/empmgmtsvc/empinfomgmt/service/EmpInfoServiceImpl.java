@@ -32,7 +32,7 @@ import kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.WorkInfoTO;
 
 @Service
 public class EmpInfoServiceImpl implements EmpInfoService {
-	
+
 //	@Autowired
 //	private DeptMapper deptMapper;
 	@Autowired
@@ -47,7 +47,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	private LicenseInfoMapper licenseInfoMapper;
 	@Autowired
 	private EmpEvalMapper empEvalMapper;
-	
+
 	@Autowired
 	private DeptRepository deptrepository;
 	@Autowired
@@ -56,7 +56,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	private EmpEvalRepository empEvalrepository;
 	@Autowired
 	private EmpAppointmentMapper empAppointmentMapper;
-	
+
 
 
 	@Override
@@ -107,7 +107,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 
 	@Override
 	public void registEmployee(EmpTO emp) {
-		
+
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("empCode", emp.getEmpCode());
 		map.put("empName", emp.getEmpName());
@@ -125,13 +125,14 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 		map.put("hobong", emp.getHobong());
 		map.put("occupation", emp.getOccupation());
 		map.put("employment", emp.getEmployment());
+		map.put("WorkplaceCode",emp.getWorkplaceCode());
 
 		for(String key : map.keySet()) {
 			System.out.println(key +" : "+ map.get(key));
 		}
-		
+
 		empMapper.registEmployee(map);
-		
+
 		DetailCode detailCode = new DetailCode();
 		detailCode.setDetailCodeNumber(emp.getEmpCode());
 		detailCode.setDetailCodeName(emp.getEmpName());
@@ -204,7 +205,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	@Override
 	public void deleteEmpList(ArrayList<EmpTO> empList) {
 		HashMap<String, String> map = new HashMap<>();
-		for (EmpTO emp : empList) {	
+		for (EmpTO emp : empList) {
 			map.put("empCode", emp.getEmpCode());
 			empMapper.deleteEmployee(map);
 			DetailCodeTO detailCodeto = new DetailCodeTO();
@@ -249,7 +250,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 		map.put("deptName", dept);
 		map.put("apply_day", year);
 		ArrayList<EmpEvalTO> empevallsit = null;
-		
+
 		if (dept.equals("모든부서")) {
 			empevallsit = (ArrayList<EmpEvalTO>)empEvalrepository.findAll();
 			//empevallsit = empEvalMapper.selectEmpEval();
@@ -285,36 +286,36 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("empCode", emp_code);
 		map.put("apply_day", apply_day);
-		
+
 		empEvalMapper.deleteEmpEval(map);
 
 	}
-	
+
 	@Override
 	public void registAppointmentinfo(EmpAppointmentInfoTO empAppointmentInfoTO) {
-		
+
 			empAppointmentMapper.insertAppointmentInfo(empAppointmentInfoTO);
 			}
-	
+
 	@Override
 	public ArrayList<EmpAppointmentInfoTO> findAppointmentinfo(String searchType){
 		ArrayList<EmpAppointmentInfoTO> empAppointmentInfoTO = empAppointmentMapper.selectAppintmentInfo(searchType);
 		return empAppointmentInfoTO;
 	}
-	
+
 	@Override
 	public ArrayList<EmpAppointmentTypeTO> findAppointmentinfoEmp(String hosu,String type){
-		
+
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("hosu", hosu);
 		map.put("type", type);
 		ArrayList<EmpAppointmentTypeTO> empAppointmentTypeTO = empAppointmentMapper.selectAppointmentinfoEmp(map);
 		return empAppointmentTypeTO;
 	}
-	
+
 	@Override
 	public ArrayList<EmpAppointmentTypeTO> findAppointmentEmp(String empCode){
-		
+
 		ArrayList<EmpAppointmentTypeTO> empAppointmentTypeTO = empAppointmentMapper.selectAppointmentEmp(empCode);
 		return empAppointmentTypeTO;
 	}
@@ -330,7 +331,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 }
 	@Override
 	public EmpAppointmentInfoTO generateHosu(){
-		
+
 		Calendar now = Calendar.getInstance();
 		String hosu = empAppointmentMapper.getHosu();
 		if(hosu==null) {
@@ -352,7 +353,7 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 
 	@Override
 	public void updateAppoint(ArrayList<EmpAppointmentTypeTO> typeList) {
-		
+
 	for (EmpAppointmentTypeTO type : typeList) {
 					empAppointmentMapper.updateAppintmentList(type);
 	}

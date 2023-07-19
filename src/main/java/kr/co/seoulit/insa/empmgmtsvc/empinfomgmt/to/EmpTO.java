@@ -16,6 +16,7 @@ public class EmpTO extends BaseTO{
    private String workplaceCode, empCode, empName, birthdate, gender, mobileNumber, address, detailAddress, postNumber, email,
            lastSchool, imgExtend, positionCode, deptCode, hobong, occupation, employment, authority, hiredate,
            deptName, position;
+
    int achievement,ability, attitude;
    ArrayList<FamilyInfoTO> familyInfoList;
    ArrayList<LicenseInfoTO> licenseInfoList;
