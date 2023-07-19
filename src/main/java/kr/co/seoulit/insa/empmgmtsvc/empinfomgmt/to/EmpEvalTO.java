@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 @IdClass(value=EmpEvalTO.class)
 public class EmpEvalTO extends BaseTO implements Serializable{
-	
+
 	@Id
 	@Column(nullable=false)
 	private String empCode;
@@ -30,14 +30,17 @@ public class EmpEvalTO extends BaseTO implements Serializable{
 	private String empName;
 	@Id
 	@Column(nullable=false)
-	private String apply_day;
+	private String applyDay;
 	private String deptCode;
+	private String PositionCode;
+
+
 	//private String deptName;
 	//private String position;
-	private String approval_Status;
+	private String approvalStatus;
 	private String grade;
 	private int achievement;
 	private int ability;
 	private int attitude;
-
+	private String Status;
 }

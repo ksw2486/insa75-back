@@ -20,7 +20,7 @@ import kr.co.seoulit.insa.sys.mapper.DatasetBeanMapper;
 @RequestMapping("/empinfomgmt/*")
 @RestController
 public class EmpRegisterController {
-	
+
 	@Autowired
 	private EmpInfoService empInfoService;
 	ModelMap map = null;
@@ -37,24 +37,24 @@ public class EmpRegisterController {
 		//System.out.println(emp.getEmpName());
 		//System.out.println(emp.getDeptCode());
 		//System.out.println(emp.getPositionCode());
-		System.out.println("emp ================ " + emp);
+		System.out.println("========emp" + emp);
 		empInfoService.registEmployee(emp);
 
 		System.out.println("===========사원번호 생성 컨트롤러 끝==========="	);
 		return null;
 	}
 
-	
+
 	@GetMapping("/employee")
 	   public ModelMap findLastEmpCode(@RequestAttribute("reqData") PlatformData reqData,
 	         @RequestAttribute("resData") PlatformData resData) throws Exception{
 	      EmpTO lastEmpCode= new EmpTO();
-	      
+
 	      String lastCode = empInfoService.findLastEmpCode().substring(1);  //lastEmpCode
 	      String result = "A" + (Integer.parseInt(lastCode)+1);
-	      
+
 	      lastEmpCode.setEmpCode(result);
-	         
+
 	      datasetBeanMapper.beanToDataset(resData, lastEmpCode, EmpTO.class);
 
 	      return null;
