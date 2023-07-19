@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
+@Dataset(name="ds_documents")
 @EqualsAndHashCode(callSuper=false)
-@Dataset(name="ds_CertificateBean")
-public class CertificateTO extends BaseTO {
-
-	private String empCode, empName, deptName, requestDate, useDate, usageCode,
-	usageName, etc, approvalStatus, rejectCause, status;
+public class DocumentsTO extends BaseTO{
+    private String empName, empCode, proofTypeCode, proofTypeName, startDate,
+            position, dept, cause, applovalStatus;
 }

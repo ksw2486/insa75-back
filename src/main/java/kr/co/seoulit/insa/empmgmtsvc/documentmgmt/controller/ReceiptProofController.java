@@ -19,52 +19,51 @@ import kr.co.seoulit.insa.sys.mapper.DatasetBeanMapper;
 @RequestMapping("/documentmgmt/*")
 @RestController
 public class ReceiptProofController {
-	
+
 	@Autowired
 	private DocumentMgmtService documentMgmtService;
 	@Autowired
 	private DatasetBeanMapper datasetBeanMapper;
-	
+
 	ModelMap map = null;
-	
+
 	@RequestMapping("/documentmgmt/receipt-proof")
 	public ModelMap proofRequest(@RequestAttribute("reqData") PlatformData reqData,
 			@RequestAttribute("resData") PlatformData resData) throws Exception{
-		
+
 		proofTO proof= datasetBeanMapper.datasetToBean(reqData, proofTO.class);
-		
+
 		documentMgmtService.proofRequest(proof);
-		
+
 		return null;
 	}
 
-	
+
 	@RequestMapping("/documentmgmt/receipt-proof-inquiry")
 	public ModelMap proofLookupList(@RequestAttribute("reqData") PlatformData reqData,
 			@RequestAttribute("resData") PlatformData resData) throws Exception{
-		
+
 		String empCode = reqData.getVariable("empCode").getString();
 		String startDate = reqData.getVariable("startDate").getString();
 		String endDate = reqData.getVariable("endDate").getString();
 		String code = reqData.getVariable("code").getString();
-		
+
 		ArrayList<proofTO> proof = documentMgmtService.proofLookupList(empCode,code,startDate, endDate);
-		
+
 		datasetBeanMapper.beansToDataset(resData, proof, proofTO.class);
-		
+
 		return null;
 	}
-	
-	
-	@DeleteMapping("/documentmgmt/receipt-proof-elimination")
+
+	@RequestMapping("/documentmgmt/receipt-proof-elimination")
 	public ModelMap removeProofAttdList(@RequestAttribute("reqData") PlatformData reqData,
 			@RequestAttribute("resData") PlatformData resData) throws Exception{
-		
+
 		ArrayList<proofTO> proofList = (ArrayList<proofTO>)datasetBeanMapper.datasetToBeans(reqData, proofTO.class);
-					
+
 		documentMgmtService.removeProofRequest(proofList);
-			
+
 		return null;
 	}
-	
+
 }
