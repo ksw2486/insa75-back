@@ -39,4 +39,11 @@ public class ResumeManagementController {
         NewResumeTO newResumeTO = datasetBeanMapper.datasetToBean(reqData, NewResumeTO.class);
         newempInfoService.updateresumeNewemp(newResumeTO);
     }
+
+    @RequestMapping("insertResume")
+    public void insertResume(@RequestAttribute("reqData") PlatformData reqData) throws Exception {
+        System.out.println("insert 컨트롤러실행");
+        NewResumeTO newResumeTO = datasetBeanMapper.datasetToBean(reqData, NewResumeTO.class);
+        newempInfoService.insertResume(newResumeTO);
+    }
 }

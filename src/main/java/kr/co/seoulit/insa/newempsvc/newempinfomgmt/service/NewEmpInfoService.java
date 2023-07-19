@@ -20,4 +20,6 @@ public interface NewEmpInfoService {
 	public String produceNewcode(int year, int half);
 
 	public void insertResumeAndPI(NewResumeTO resume, PersonalityInterviewTO pi);
+
+	public void insertResume(NewResumeTO resume);
 }

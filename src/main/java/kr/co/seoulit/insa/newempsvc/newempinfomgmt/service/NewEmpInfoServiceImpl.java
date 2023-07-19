@@ -84,4 +84,10 @@ public class NewEmpInfoServiceImpl implements NewEmpInfoService
 		newempMapper.InsertResume(resume);
 		newempMapper.InsertPI(pi);
 	}
+
+	@Override
+	public void insertResume(NewResumeTO resume){
+
+		newempMapper.InsertResume(resume);
+	}
 }
