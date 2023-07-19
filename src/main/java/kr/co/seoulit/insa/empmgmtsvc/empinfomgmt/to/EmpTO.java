@@ -12,17 +12,17 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class EmpTO extends BaseTO{
-	
+
    private String workplaceCode, empCode, empName, birthdate, gender, mobileNumber, address, detailAddress, postNumber, email,
-           lastSchool, imgExtend, positionCode, deptCode, hobong, occupation, employment, authority, hiredate, achievement,
-           ability, attitude, deptName, position;
-   
+           lastSchool, imgExtend, positionCode, deptCode, hobong, occupation, employment, authority, hiredate,
+           deptName, position;
+   int achievement,ability, attitude;
    ArrayList<FamilyInfoTO> familyInfoList;
    ArrayList<LicenseInfoTO> licenseInfoList;
    ArrayList<WorkInfoTO> workInfo;
-   
+
    public String getImgExtend() {
-	      return "jpg";
+      return "jpg";
    }
 
 }
