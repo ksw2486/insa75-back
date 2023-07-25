@@ -10,8 +10,12 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +40,8 @@ public class BoardController {
 	private MultipartFile reportFile;
 	
 	@PostMapping("board")
-	public ModelAndView registBoard(HttpServletRequest request, HttpServletResponse response){
+	@Operation(summary = "제목", description = "설명")
+	public ResponseEntity<String> registBoard(HttpServletRequest request, HttpServletResponse response){
 		
 		ModelAndView modelAndView = new ModelAndView();		
         BoardTO board=new BoardTO();
@@ -78,7 +83,7 @@ public class BoardController {
 			modelAndView.addObject("errorMsg", e.getMessage());
 			modelAndView.addObject("errorCode",0);		
         }
-		return modelAndView;
+		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 	
 	

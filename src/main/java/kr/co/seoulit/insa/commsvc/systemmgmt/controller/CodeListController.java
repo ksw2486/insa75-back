@@ -2,6 +2,7 @@ package kr.co.seoulit.insa.commsvc.systemmgmt.controller;
 
 import java.util.ArrayList;
 
+import io.swagger.v3.oas.annotations.Operation;
 import kr.co.seoulit.insa.attdsvc.attdmgmt.service.AttdMgmtService;
 import kr.co.seoulit.insa.attdsvc.attdmgmt.to.DeptListTO;
 import kr.co.seoulit.insa.attdsvc.attdmgmt.to.EmpListTO;
@@ -37,6 +38,7 @@ public class CodeListController {
 	ModelMap map = null;
 
 	@RequestMapping("/systemmgmt/codelist") //   /systemmgmt/systemmgmt/codelist
+	@Operation(summary = "모달", description = "모달창에서 나타날 item들을 가져오는 api 입니다")
 	public ArrayList<DetailCodeTO> detailCodelist(@RequestAttribute("reqData") PlatformData reqData,
             @RequestAttribute("resData") PlatformData resData) throws Exception{
 		System.out.println("=============사원등록(부서검색) 모달창 오픈 컨트롤러 실행==============");

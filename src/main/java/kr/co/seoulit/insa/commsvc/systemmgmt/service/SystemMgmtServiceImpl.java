@@ -91,6 +91,7 @@ public class SystemMgmtServiceImpl implements SystemMgmtService {
 			System.out.println(" 1번실행... ");
 			detailCodes = (ArrayList<DetailCode>) detailcoderepository.findAll();
 
+
 			dto = detailCodes.stream().map(kr.co.seoulit.insa.commsvc.systemmgmt.mapstructMapper.DetailCodeMapper.INSTANCE::entityToDetailCodeDTO).collect(Collectors.toList());
 
 
