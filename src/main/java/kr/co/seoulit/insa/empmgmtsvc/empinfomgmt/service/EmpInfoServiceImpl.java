@@ -1,8 +1,12 @@
 package kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import kr.co.seoulit.insa.commsvc.systemmgmt.entity.DetailCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,12 +231,75 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	}
 
 	@Override
-	public void registEmpEval(EmpEvalTO empeval) {
+	public void registEmpEval(EmpEvalTO empeval,String workInfo) {
 
+		System.out.println("workInfo = " + workInfo);
+
+
+		// 정규표현식 패턴
+		String positionPattern = "position=([^,]+)";
+		String deptNamePattern = "deptName=([^\\]]+)";
+
+		// 패턴 컴파일
+		Pattern positionRegex = Pattern.compile(positionPattern);
+		Pattern deptNameRegex = Pattern.compile(deptNamePattern);
+
+		// 매칭하기
+		Matcher positionMatcher = positionRegex.matcher(workInfo);
+		Matcher deptNameMatcher = deptNameRegex.matcher(workInfo);
+
+		// 원하는 문자열 추출
+		String positionCode = "";
+		String deptName = "";
+
+		if (positionMatcher.find()) {
+			positionCode = positionMatcher.group(1);
+		}
+
+		if (deptNameMatcher.find()) {
+			deptName = deptNameMatcher.group(1);
+		}
+
+		// 괄호 뒤에 불필요한 문자 제거
+		deptName = deptName.replaceAll("\\)", "");
+
+		System.out.println("사원: " + positionCode);
+		System.out.println("부서: " + deptName);
+
+
+		LocalDate now = LocalDate.now();
+
+		int year = now.getYear();
+		String yearData = Integer.toString(year);
+
+		empeval.setApplyDay(yearData);
+		/*empeval.setDeptName(deptName);
+		empeval.setPosition(positionCode);*/
+
+		int a = empeval.getAchievement();
+		int b = empeval.getAbility();
+		int c = empeval.getAttitude();
+
+		String grade = null;
+
+		if (a >= 90 && b >= 90 && c >= 90) {
+			grade = "A";
+		} else if (a >= 80 && b >= 80 && c >= 80) {
+			grade = "B";
+		} else if (a >= 70 && b >= 70 && c >= 70) {
+			grade = "C";
+		} else {
+			grade = "D";
+		}
+
+		System.out.println(grade+"aaaaaaaaaa");
+		empeval.setGrade(grade);
 		empEvalrepository.save(empeval);
 		//empEvalMapper.insertEmpEval(empeval);
 
 	}
+
+
 
 	@Override
 	public ArrayList<EmpEvalTO> findEmpEval() {
@@ -248,11 +315,11 @@ public class EmpInfoServiceImpl implements EmpInfoService {
 	public ArrayList<EmpEvalTO> findEmpEval(String dept, String year) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("deptName", dept);
-		map.put("apply_day", year);
+			map.put("apply_day", year);
 		ArrayList<EmpEvalTO> empevallsit = null;
-
 		if (dept.equals("모든부서")) {
-			empevallsit = (ArrayList<EmpEvalTO>)empEvalrepository.findAll();
+			empevallsit = (ArrayList<EmpEvalTO>)empEvalrepository.findAllByApplyDay(year);
+			System.out.println(empevallsit+"@@@!!!!!");
 			//empevallsit = empEvalMapper.selectEmpEval();
 		} else {
 			empevallsit = empEvalMapper.selectEmpEvalDept(map);

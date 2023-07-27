@@ -2,6 +2,7 @@ package kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.controller;
 
 import java.util.ArrayList;
 
+import kr.co.seoulit.insa.empmgmtsvc.empinfomgmt.to.WorkInfoTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,42 +21,47 @@ import kr.co.seoulit.insa.sys.mapper.DatasetBeanMapper;
 @RequestMapping("/empinfomgmt/*")
 @RestController
 public class EmpEvalController {
-	
+
 	@Autowired
 	private EmpInfoService empInfoService;
-	
+
 	@Autowired
 	private DatasetBeanMapper datasetBeanMapper;
-	
+
 	ModelMap map = null;
-	
+
 	@PostMapping("/registevaluation")
 	public ModelMap registEmpEval(@RequestAttribute("reqData") PlatformData reqData,
-								  @RequestAttribute("resData") PlatformData resData) throws Exception{	
-		
-		    EmpEvalTO emp = datasetBeanMapper.datasetToBean(reqData, EmpEvalTO.class);
-			empInfoService.registEmpEval(emp);
-			System.out.print("registEmpEval실행!!!!!!!!!!!!!!!!!!!!!!!!");
-			
+								  @RequestAttribute("resData") PlatformData resData) throws Exception{
+
+		EmpEvalTO empevalto = datasetBeanMapper.datasetToBean(reqData,EmpEvalTO.class);
+		System.out.println("@@@@@@@@@@@실행");
+		System.out.println("@@@@@@@@@@@emp" + empevalto);
+
+		String workInfo = reqData.getDataSetList().get(0).getString(0, 26);
+		System.out.println("@@@@@@@@@@@workInfo"+ workInfo);
+		empInfoService.registEmpEval(empevalto,workInfo);
+		System.out.print("registEmpEval실행!!!!!!!!!!!!!!!!!!!!!!!!");
+
 
 		return null;
 	}
-	
-	
+
+
 	@GetMapping("/evaluation")
 	public ModelMap findEmpEval(@RequestAttribute("reqData") PlatformData reqData,
-								@RequestAttribute("resData") PlatformData resData) throws Exception{		
-		
+								@RequestAttribute("resData") PlatformData resData) throws Exception{
+
 			ArrayList<EmpEvalTO> empevalList = empInfoService.findEmpEval();
 			datasetBeanMapper.beansToDataset(resData, empevalList, EmpEvalTO.class);
 
 		return null;
 	}
-	
+
 	@PostMapping("/removalevaluation")
 	public ModelMap removeEmpEvalList(@RequestAttribute("reqData") PlatformData reqData,
-										@RequestAttribute("resData") PlatformData resData) throws Exception{	
-		
+										@RequestAttribute("resData") PlatformData resData) throws Exception{
+
 		String emp_code = reqData.getVariable("empCode").getString();
 		String apply_day = reqData.getVariable("applyDay").getString();
 		System.out.println(apply_day+"@@@@@@@@");

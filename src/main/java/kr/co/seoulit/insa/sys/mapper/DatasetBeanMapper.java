@@ -40,8 +40,8 @@ public class DatasetBeanMapper {
         log.info("beanList:"+beanList);
         T bean = null;
         int rowCount = dataset.getRowCount(); // xml로 날라온 rowCount를 구한다. 즉 한개의 행
-        
-       
+
+
         for(int rowIndex = 0; rowIndex < rowCount; rowIndex++) { // 데이터의 행만큼 돌면서 아래 진행,  2개면 0, 1
             bean = getBean(dataset, classType, rowIndex); // 데이터를 set 다해준 bean을 리턴 받았다.
             beanList.add(bean); // 그리고 여러개의 bean을 list에 넣어주고 return 해준다.
@@ -66,7 +66,7 @@ public class DatasetBeanMapper {
             bean = getBean(dataset, classType, 0);
         else
             bean = getDeletedBean(dataset, classType, 0);
-        
+
         return bean;
     }
 
@@ -75,13 +75,13 @@ public class DatasetBeanMapper {
         Map<String, String> nameMap = new HashMap<String, String>();// 칼럼이름을 담고 칼럼value를 구할때 필요
 
        DataSetList datasetList = resData.getDataSetList(); // 여러값이 담길때는 DataSetList 사용 한개는 dataset
-       
+
         String datasetName = getDataSetName(classType); // TO위에 있는 @Dataset(name= "")의 name value값을 얻어옴.
         log.info("datasetName:"+datasetName);
         DataSet dataset = new DataSet(datasetName);// Dataset에 ex) gds_estimate 이름으로 변수 등록 view단에서 gds_estimate의 변수이름으로
-        
+
        datasetList.add(dataset);// 추가
-       
+
         Field[] fields = classType.getDeclaredFields(); // TO에 선언된 멤버변수들을 가져온다.
         for(Field field : fields)
             setColumnName(dataset, nameMap, field); // dataset Column에 할당 작업
@@ -93,19 +93,19 @@ public class DatasetBeanMapper {
     public <T> void beanToDataset(PlatformData resData, T bean, Class<T> classType) throws Exception {
         Map<String, String> nameMap = new HashMap<String, String>();
         DataSetList datasetList = resData.getDataSetList();
-       
+
         String datasetName = getDataSetName(classType);
         DataSet dataset = new DataSet(datasetName);
 
         datasetList.add(dataset);
 
         if(bean != null) {
-        	
+
         	Field[] fields = classType.getDeclaredFields();
-        	
+
             for(Field field : fields)
                 setColumnName(dataset, nameMap, field);
-            
+
             setColumnValue(dataset, nameMap, bean);
         }
     }
@@ -207,7 +207,7 @@ public class DatasetBeanMapper {
             String fieldName = nameMap.get(columnName);
             Field value = bean.getClass().getDeclaredField(fieldName.trim());
             value.setAccessible(true);									// Priavte 로 되어있는 객체에 접근하기 위해서 사용
-            dataset.set(rowIndex, columnName, value.get(bean));			// 값을 얻기 위해서 사용 
+            dataset.set(rowIndex, columnName, value.get(bean));			// 값을 얻기 위해서 사용
         }
     }
 
@@ -216,14 +216,14 @@ public class DatasetBeanMapper {
         Method[] methods = classType.getDeclaredMethods();
         Method statusMethod = classType.getMethod("setStatus", String.class);
         String rowType = null;
-        
+
         switch(dataset.getRowTypeName(rowIndex)){
         	case "inserted" :
-        		
+
         		rowType = "insert";
         		break;
         	case "updated" :
-        		
+
         		rowType = "update";
         		break;
         }
@@ -231,10 +231,10 @@ public class DatasetBeanMapper {
         for(Method method : methods) {
             if(method.getName().startsWith("set")) {
                 String columnName = getColumnName(method);
-               
+
                 if(columnName != null) {
                     Object columnValue = dataset.getObject(rowIndex, columnName);
-                  
+
                     if(columnValue != null)
                         method.invoke(bean, columnValue);
                 }

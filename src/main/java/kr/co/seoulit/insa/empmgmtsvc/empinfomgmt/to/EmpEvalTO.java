@@ -31,16 +31,18 @@ public class EmpEvalTO extends BaseTO implements Serializable{
 	@Id
 	@Column(nullable=false)
 	private String applyDay;
-	private String deptCode;
-	private String PositionCode;
+	private String deptName;
+	private String position;
 
-
-	//private String deptName;
-	//private String position;
-	private String approvalStatus;
-	private String grade;
+	/*private String deptName;
+	private String position;*/
 	private int achievement;
 	private int ability;
 	private int attitude;
-	private String Status;
+
+	private String approvalStatus;
+	private String grade;
+	/*private String status;*/
+
+
 }
